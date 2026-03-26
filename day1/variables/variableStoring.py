@@ -1,0 +1,2 @@
+a="sruthi"
+print(a)
