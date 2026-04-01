@@ -1,0 +1,5 @@
+Python
+
+1.Python basics
+2.functions
+3.file handling

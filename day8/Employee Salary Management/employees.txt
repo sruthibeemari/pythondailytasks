@@ -1,0 +1,4 @@
+ram 98000
+krishna 78000
+vasudev 80000
+sruthi 89000

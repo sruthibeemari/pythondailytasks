@@ -1,0 +1,3 @@
+Python is easy
+File handling is important
+Practice daily to improve coding
