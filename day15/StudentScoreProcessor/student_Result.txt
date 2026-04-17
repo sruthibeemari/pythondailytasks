@@ -1,0 +1,6 @@
+Students Dictionary: 
+{'Ram': 90, 'Krishn': 60, 'Govind': 35, 'Sruthi': 70, 'Sanvi': 49}
+Above 50: 
+[('Ram', 90), ('Krishn', 60), ('Sruthi', 70)]
+Average: 
+60.8

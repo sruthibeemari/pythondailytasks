@@ -1,0 +1,4 @@
+ERROR
+INFO Start
+ERROR Disk full
+INFO Running

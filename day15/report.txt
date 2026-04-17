@@ -1,0 +1,52 @@
+Student Report
+----------------
+S1 73 (<__main__.Student object at 0x0000020E582FDFD0>, 'C')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S2 24 (<__main__.Student object at 0x0000020E582E65D0>, 'Fail')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S3 44 (<__main__.Student object at 0x0000020E582E6490>, 'Fail')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S4 68 (<__main__.Student object at 0x0000020E5829B5C0>, 'C')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S5 81 (<__main__.Student object at 0x0000020E5829B490>, 'B')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S6 39 (<__main__.Student object at 0x0000020E58305A30>, 'Fail')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S7 54 (<__main__.Student object at 0x0000020E582CFCE0>, 'C')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S8 60 (<__main__.Student object at 0x0000020E582CFF00>, 'C')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S9 32 (<__main__.Student object at 0x0000020E5831B150>, 'Fail')
+
+Mean: 50.8
+Max: 81
+Min: 24
+S10 33 (<__main__.Student object at 0x0000020E58374C50>, 'Fail')
+
+Mean: 50.8
+Max: 81
+Min: 24
