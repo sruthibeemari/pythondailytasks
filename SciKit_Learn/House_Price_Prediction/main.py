@@ -1,60 +1,49 @@
 #========================================================================
-#Importing libraries
+# Importing libraries
 #========================================================================
-
 import numpy as np
 import pandas as pd
 
 #========================================================================
-#Load Dataset
+# Load Dataset
 #========================================================================
-dataset=pd.read_csv('kc_house_data.csv')
+dataset = pd.read_csv('kc_house_data.csv')
 print(dataset.head())
 
-# ============================================================
-# Convert price into categories (classification problem)
-# ============================================================
-#0=low, 1=Medium, 2=High
-dataset['price_category']=pd.cut(dataset['price'],bins=3,labels=[0,1,2])
-
-# ============================================================
+#========================================================================
 # Features (X) and Target (y)
-# ============================================================
-X=dataset[['bedrooms','bathrooms','sqft_living','sqft_lot','floors',
+#========================================================================
+X = dataset[['bedrooms','bathrooms','sqft_living','sqft_lot','floors',
              'condition','grade','sqft_basement','yr_built','yr_renovated']].values
-y=dataset['price_category'].values
+
+y = dataset['price'].values   # Continuous target (REGRESSION)
 
 print('-'*80)
-print(f'Shape of X:{X.shape}')
-print(f'Shape of y:{y.shape}')
+print(f'Shape of X: {X.shape}')
+print(f'Shape of y: {y.shape}')
 
-# ============================================================
+#========================================================================
 # Train-Test Split
-# ============================================================
-
-
+#========================================================================
 from sklearn.model_selection import train_test_split
 
-X_train,X_test,y_train,y_test=train_test_split(
-    X,y,test_size=0.2,random_state=0
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=0
 )
 
-# ============================================================
+#========================================================================
 # Feature Scaling (needed for some models)
-# ============================================================
-
+#========================================================================
 from sklearn.preprocessing import StandardScaler
 
-sc=StandardScaler()
-X_train_scaled=sc.fit_transform(X_train)
-X_test_scaled=sc.transform(X_test)
+sc = StandardScaler()
+X_train_scaled = sc.fit_transform(X_train)
+X_test_scaled = sc.transform(X_test)
 
-# ============================================================
-# Evaluation Function
-# ============================================================
-
-
-from sklearn.metrics import accuracy_score
+#========================================================================
+# Evaluation Function (REGRESSION METRICS)
+#========================================================================
+from sklearn.metrics import mean_squared_error, r2_score
 
 def run_model(model, use_scaled=False):
     if use_scaled:
@@ -65,49 +54,55 @@ def run_model(model, use_scaled=False):
         y_pred = model.predict(X_test)
 
     print(model)
-    print('\n' + '-'*20 + 'Accuracy Score on the Test set' + '-'*20)
-    print("{:.0%}".format(accuracy_score(y_test, y_pred)))
+    print('\n' + '-'*20 + 'Regression Metrics' + '-'*20)
+
+    mse = mean_squared_error(y_test, y_pred)
+    rmse = np.sqrt(mse)
+    r2 = r2_score(y_test, y_pred)
+
+    print("MSE :", mse)
+    print("RMSE:", rmse)
+    print("R2 Score:", r2)
 
 
+#========================================================================
+# 1. Support Vector Regression (SVR)
+#========================================================================
+from sklearn.svm import SVR
+run_model(SVR(), use_scaled=True)
 
-# ============================================================
-# 1. Support Vector Machine (SVC)
-# ============================================================
-from sklearn.svm import SVC
-run_model(SVC(), use_scaled=True)
+#========================================================================
+# 2. Decision Tree Regressor
+#========================================================================
+from sklearn.tree import DecisionTreeRegressor
+run_model(DecisionTreeRegressor())
 
-# ============================================================
-# 2. Logistic Regression
-# ============================================================
-from sklearn.linear_model import LogisticRegression
-run_model(LogisticRegression(max_iter=1000), use_scaled=True)
+#========================================================================
+# 3. Random Forest Regressor
+#========================================================================
+from sklearn.ensemble import RandomForestRegressor
+run_model(RandomForestRegressor())
 
-# ============================================================
-# 3. Naive Bayes
-# ============================================================
-from sklearn.naive_bayes import GaussianNB
-run_model(GaussianNB())
+#========================================================================
+# 4. K-Nearest Neighbors Regressor
+#========================================================================
+from sklearn.neighbors import KNeighborsRegressor
+run_model(KNeighborsRegressor(), use_scaled=True)
 
-# ============================================================
-# 4. Decision Tree
-# ============================================================
-from sklearn.tree import DecisionTreeClassifier
-run_model(DecisionTreeClassifier())
+#========================================================================
+# 5. Gradient Boosting Regressor
+#========================================================================
+from sklearn.ensemble import GradientBoostingRegressor
+run_model(GradientBoostingRegressor())
 
-# ============================================================
-# 5. Random Forest
-# ============================================================
-from sklearn.ensemble import RandomForestClassifier
-run_model(RandomForestClassifier())
+#========================================================================
+# 6. Linear Regression
+#========================================================================
+from sklearn.linear_model import LinearRegression
+run_model(LinearRegression())
 
-# ============================================================
-# 6. K-Nearest Neighbors (KNN)
-# ============================================================
-from sklearn.neighbors import KNeighborsClassifier
-run_model(KNeighborsClassifier(), use_scaled=True)
-
-# ============================================================
-# 7. Gradient Boosting
-# ============================================================
-from sklearn.ensemble import GradientBoostingClassifier
-run_model(GradientBoostingClassifier())
+#========================================================================
+# 7. Extra Trees Regressor
+#========================================================================
+from sklearn.ensemble import ExtraTreesRegressor
+run_model(ExtraTreesRegressor())

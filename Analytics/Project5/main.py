@@ -196,3 +196,224 @@ plt.ylabel("Selling Price")
 # Show the plot
 plt.show()
 
+#=====================================================================
+# Scenario 6: Car Age Category Analysis + Bar Chart
+#=====================================================================
+# ● Create a new column using Pandas:
+# Car Age Category
+# ● Year >= 2015 → "New"
+# ● 2010 to 2014 → "Medium"
+# ● < 2010 → "Old"
+# ● Count number of cars in each:
+# ○ Car Age Category
+# ● Convert category names and counts into NumPy arrays.
+# ● Plot a bar chart using Matplotlib:
+# ○ X-axis → Car Age Category
+# ○ Y-axis → Count
+# ● Add title and labels.
+# ● Save the graph.
+#=====================================================================
+#code
+#=====================================================================
+# Scenario 7: Kms Driven Distribution (Histogram
+#=====================================================================
+# ● Select:
+# ○ Kms_Driven
+# ● Convert it into a NumPy array.
+# ● Plot a histogram using Matplotlib:
+# ○ X-axis → Kms Driven
+# ○ Y-axis → Frequency
+# ● Choose suitable number of bins.
+# ● Add:
+# ○ title
+# ○ x-label
+# ○ y-label
+# ● Save the graph.
+# ● Observe whether most cars have lower or higher mileage.
+#=====================================================================
+#code
+
+#=====================================================================
+#Scenario 8: Transmission-wise Selling Price Comparison
+#=====================================================================
+# ● Group data by:
+# ○ Transmission
+# ● Calculate:
+# ○ average Selling_Price
+# ● Convert transmission labels and average prices into NumPy arrays.
+# ● Plot a bar chart using Matplotlib:
+# ○ X-axis → Transmission
+# ○ Y-axis → Average Selling Price
+# ● Add title and labels.
+# ● Save the graph.
+#=====================================================================
+#code
+
+#=====================================================================
+#Scenario 9: Seller Type Analysi
+#=====================================================================
+# ● Count number of cars by:
+# ○ Seller_Type
+# ● Convert results into NumPy arrays.
+# ● Plot a bar chart or pie chart using Matplotlib.
+# ● Add labels and title.
+# ● Save the graph.
+# ● Identify which seller type is more common.
+#=====================================================================
+
+# Count number of cars by Seller_Type
+seller_counts = df['Seller_Type'].value_counts()
+
+# Convert results into NumPy arrays
+seller_types = np.array(seller_counts.index)
+counts = np.array(seller_counts.values)
+
+# Print arrays 
+print("Seller Types:", seller_types)
+print("Counts:", counts)
+
+# Plot Bar Chart
+plt.figure(figsize=(6,4))
+plt.bar(seller_types, counts, color=['skyblue', 'orange'])
+plt.xlabel("Seller Type")
+plt.ylabel("Number of Cars")
+plt.title("Number of Cars by Seller Type")
+
+# Save the graph
+plt.savefig("seller_type_bar_chart.png")
+
+# Show plot
+plt.show()
+
+# Optional: Pie Chart
+plt.figure(figsize=(6,6))
+plt.pie(counts, labels=seller_types, autopct='%1.1f%%', startangle=90)
+plt.title("Seller Type Distribution")
+
+# Save pie chart
+# plt.savefig("seller_type_pie_chart.png")
+
+plt.show()
+
+# Identify most common seller type
+most_common = seller_counts.idxmax()
+print("Most common seller type:", most_common)
+#=====================================================================
+#Scenario 10: Advanced Analysis + Multiple Graphs
+#=====================================================================
+#----------------------------------------------------------------------
+# �� Part 1: Feature Creation
+#----------------------------------------------------------------------
+# Create a new column:
+# Price Difference
+# ● Price Difference = Present_Price - Selling_Price
+# This shows how much value the car has depreciated.
+#----------------------------------------------------------------------
+df['Price_Difference'] = df['Present_Price'] - df['Selling_Price']
+
+#----------------------------------------------------------------------
+# Part 2: NumPy Usage
+#----------------------------------------------------------------------
+# ● Convert Selling_Price into a NumPy array.
+# ● Use NumPy to calculate price changes between consecutive rows using:
+# ○ np.diff()
+# ● Convert Price Difference column into a NumPy array.
+# ● Find:
+# ○ average depreciation
+# ○ maximum depreciation
+# ○ minimum depreciation
+#----------------------------------------------------------------------
+#10.2.1 Convert Selling_Price into a NumPy array
+selling_array = df['Selling_Price'].to_numpy()
+
+#10.2.2 Calculate price changes between consecutive rows using np.diff()
+price_changes = np.diff(selling_array)
+
+#10.2.3 Convert Price Difference column into a NumPy array
+diff_array = df['Price_Difference'].to_numpy()
+
+#10.2.4 Calculate average, maximum, and minimum depreciation
+avg_depreciation = np.mean(diff_array)
+max_depreciation = np.max(diff_array)
+min_depreciation = np.min(diff_array)
+
+# Print results
+print("Average Depreciation:", avg_depreciation)
+print("Maximum Depreciation:", max_depreciation)
+print("Minimum Depreciation:", min_depreciation)
+#----------------------------------------------------------------------
+# Part 3: Visualizations
+#----------------------------------------------------------------------
+# �� Line Graph
+# ● Plot Selling_Price trend for all cars.
+# �� Bar Chart
+# ● Show average Selling_Price by Fuel_Type.
+# �� Histogram
+# ● Plot distribution of Selling_Price.
+#----------------------------------------------------------------------
+# -------- Line Graph --------
+#10.3.1 Plot Selling_Price trend for all cars
+plt.figure(figsize=(8, 5))
+plt.plot(df['Selling_Price'], color='blue')
+plt.title("Selling Price Trend")
+plt.xlabel("Car Index")
+plt.ylabel("Selling Price")
+# plt.savefig("line_plot.png")
+plt.show()
+
+
+# -------- Bar Chart --------
+#10.3.2 Show average Selling_Price by Fuel_Type
+fuel_avg = df.groupby('Fuel_Type')['Selling_Price'].mean()
+
+plt.figure(figsize=(8, 5))
+fuel_avg.plot(kind='bar', color='orange')
+plt.title("Average Selling Price by Fuel Type")
+plt.xlabel("Fuel Type")
+plt.ylabel("Average Selling Price")
+# plt.savefig("bar_chart.png")
+plt.show()
+
+
+# -------- Histogram --------
+#10.3.3 Plot distribution of Selling_Price
+plt.figure(figsize=(8, 5))
+plt.hist(df['Selling_Price'], bins=20, color='green', edgecolor='black')
+plt.title("Distribution of Selling Price")
+plt.xlabel("Selling Price")
+plt.ylabel("Frequency")
+# plt.savefig("histogram.png")
+plt.show()
+
+
+#----------------------------------------------------------------------
+#�� Part 4: Insights
+#----------------------------------------------------------------------
+# Answer these:
+# ● Which fuel type has the highest average selling price?
+# ● Which transmission type has higher average selling price?
+# ● Are most cars concentrated in lower selling prices or higher selling prices?
+# ● Do older cars tend to have lower selling prices?
+#----------------------------------------------------------------------
+#10.4.1 Which fuel type has the highest average selling price?
+print("\nFuel Type with Highest Avg Selling Price:")
+print(fuel_avg.idxmax())
+
+
+#10.4.2 Which transmission type has higher average selling price?
+trans_avg = df.groupby('Transmission')['Selling_Price'].mean()
+print("\nTransmission Type with Higher Avg Selling Price:")
+print(trans_avg.idxmax())
+
+
+#10.4.3 Are most cars concentrated in lower or higher selling prices?
+print("\nObservation:")
+print("Check histogram → If bars are taller on lower values, most cars are low-priced.")
+
+
+#10.4.4 Do older cars tend to have lower selling prices?
+print("\nObservation:")
+print("Compare Year vs Selling_Price (older cars generally show lower prices).")
+
+#----------------------------------------------------------------------
+#=====================================================================
