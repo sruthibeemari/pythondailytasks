@@ -48,7 +48,26 @@ Understand the dataset structure and prepare it for analysis.
 ○ average selling price
 '''
 df = pd.read_csv("cardata.csv")
+print(df.head())
+print(df.tail())
+print(df.columns)
+print(df.shape)
+print(df.dtypes)
+check=['Selling_Price', 'Present_Price', 'Kms_Driven', 'Fuel_Type']
 
+print(df[check].isnull().sum())
+
+# Fill missing values correctly
+df['Selling_Price'] = df['Selling_Price'].fillna(df['Selling_Price'].mean())
+df['Present_Price'] = df['Present_Price'].fillna(df['Present_Price'].mean())
+df['Kms_Driven'] = df['Kms_Driven'].fillna(df['Kms_Driven'].mean())
+
+# FIX: mode()[0]
+df['Fuel_Type'] = df['Fuel_Type'].fillna(df['Fuel_Type'].mode()[0])
+
+# Convert ONLY numeric columns
+cols = ['Selling_Price', 'Present_Price', 'Kms_Driven']
+df[cols] = df[cols].apply(pd.to_numeric, errors='coerce')
 '''
 #============================================================
 # 🟢 Scenario 2: Selling Price Trend (Line Graph)
@@ -69,7 +88,25 @@ df = pd.read_csv("cardata.csv")
 ○ markers
 ● Save the graph with a suitable filename
 '''
-#<code here>
+# 2.1 ● Select:  ○ Car_Name  ○ Selling_Price
+# 2.2 ● Take the first 10 rows only using Pandas.
+first_10=df[['Car_Name','Selling_Price']].head(10)
+print(first_10)
+
+# 2.3 ● Convert Selling_Price into a NumPy array.
+first_10_arr=first_10['Selling_Price'].to_numpy()
+
+# 2.4 ● Plot a line graph using Matplotlib: ○ X-axis → row index (0–9) ○ Y-axis → Selling Price
+plt.plot(first_10_arr, marker='o')
+
+# 2.5 ● Add: ○ title ○ x-axis label ○ y-axis label ○ markers
+plt.title('Selling Price Trend of First 10 Cars')
+plt.xlabel('Row Index')
+plt.ylabel('Selling Price')
+plt.tight_layout()
+# 2.6 ● Save the graph with a suitable filename.
+plt.savefig('Graphs/selling_price_trend.png')
+plt.show()
 '''
 #============================================================
 # 🟡 Scenario 3: Expensive Cars Analysis (Filtering + Bar)
@@ -110,7 +147,7 @@ plt.xlabel("Fuel Type")
 plt.ylabel("Count of Cars")
 
 # Save and show
-# plt.savefig("expensive_cars_bar.png")
+plt.savefig("expensive_cars_bar.png")
 plt.show()
 
 '''
@@ -140,7 +177,7 @@ plt.figure(figsize=(8,8))
 plt.pie(values,labels=labels,autopct='%1.1f%%',)
 plt.title("Distribution of cars by Fuel Type",fontweight='bold')
 
-# plt.savefig('fuel_type_distribution.png')
+plt.savefig('fuel_type_distribution.png')
 plt.show()
 '''
 #============================================================
@@ -190,7 +227,7 @@ plt.ylabel("Selling Price")
 
 
 #5.7 & 5.8 Save the graph
-# plt.savefig("scatter_plot.png")
+plt.savefig("scatter_plot.png")
 
 
 # Show the plot
@@ -213,7 +250,36 @@ plt.show()
 # ● Add title and labels.
 # ● Save the graph.
 #=====================================================================
-#code
+# 6.1 Create a new column 'Car Age Category' using Pandas logic
+def get_age_category(year):
+    if year >= 2015:
+        return "New"
+    elif 2010 <= year <= 2014:
+        return "Medium"
+    else:
+        return "Old"
+
+df['Car Age Category'] = df['Year'].apply(get_age_category)
+
+# 6.2 Count the number of cars in each category
+age_counts = df['Car Age Category'].value_counts()
+
+# 6.3 Convert category names and counts into NumPy arrays
+categories = np.array(age_counts.index)
+counts = np.array(age_counts.values)
+
+# 6.4 Plot a bar chart using Matplotlib
+plt.bar(categories, counts, color=['#2ecc71', '#f1c40f', '#e74c3c']) # Green, Yellow, Red
+
+# 6.5 Add title and labels
+plt.title('Car Distribution by Age Category')
+plt.xlabel('Car Age Category')
+plt.ylabel('Count')
+
+# 6.6 Save the graph
+plt.savefig('Graphs/car_age_category_distribution.png')
+plt.show()
+
 #=====================================================================
 # Scenario 7: Kms Driven Distribution (Histogram
 #=====================================================================
@@ -231,7 +297,22 @@ plt.show()
 # ● Save the graph.
 # ● Observe whether most cars have lower or higher mileage.
 #=====================================================================
-#code
+#Select Kms_Driven column and convert to NumPy array
+kms_array = df['Kms_Driven'].to_numpy()
+
+#Plot histogram
+plt.figure(figsize=(8, 5))
+plt.hist(kms_array, bins=20, color='steelblue', edgecolor='black')
+
+#Add title and labels
+plt.title('Distribution of Kms Driven')
+plt.xlabel('Kms Driven')
+plt.ylabel('Frequency')
+
+plt.tight_layout()
+plt.savefig('Graphs/kms_driven_distribution.png')
+plt.show()
+
 
 #=====================================================================
 #Scenario 8: Transmission-wise Selling Price Comparison
@@ -247,7 +328,23 @@ plt.show()
 # ● Add title and labels.
 # ● Save the graph.
 #=====================================================================
-#code
+# Group by Transmission and calculate average selling price
+avg_price = df.groupby("Transmission")["Selling_Price"].mean()
+
+# Convert to NumPy arrays
+labels = avg_price.index.to_numpy()
+values = avg_price.values
+
+# Plot bar chart
+plt.bar(labels, values)
+plt.title("Average Selling Price by Transmission")
+plt.xlabel("Transmission")
+plt.ylabel("Average Selling Price")
+
+# Save and show
+plt.savefig("transmission_price_comparison.png")
+plt.show()
+
 
 #=====================================================================
 #Scenario 9: Seller Type Analysi
@@ -272,26 +369,15 @@ counts = np.array(seller_counts.values)
 print("Seller Types:", seller_types)
 print("Counts:", counts)
 
-# Plot Bar Chart
-plt.figure(figsize=(6,4))
-plt.bar(seller_types, counts, color=['skyblue', 'orange'])
-plt.xlabel("Seller Type")
-plt.ylabel("Number of Cars")
-plt.title("Number of Cars by Seller Type")
 
-# Save the graph
-plt.savefig("seller_type_bar_chart.png")
 
-# Show plot
-plt.show()
-
-# Optional: Pie Chart
+# Pie Chart
 plt.figure(figsize=(6,6))
 plt.pie(counts, labels=seller_types, autopct='%1.1f%%', startangle=90)
 plt.title("Seller Type Distribution")
 
 # Save pie chart
-# plt.savefig("seller_type_pie_chart.png")
+plt.savefig("seller_type_pie_chart.png")
 
 plt.show()
 
@@ -358,7 +444,7 @@ plt.plot(df['Selling_Price'], color='blue')
 plt.title("Selling Price Trend")
 plt.xlabel("Car Index")
 plt.ylabel("Selling Price")
-# plt.savefig("line_plot.png")
+plt.savefig("line_plot.png")
 plt.show()
 
 
@@ -371,7 +457,7 @@ fuel_avg.plot(kind='bar', color='orange')
 plt.title("Average Selling Price by Fuel Type")
 plt.xlabel("Fuel Type")
 plt.ylabel("Average Selling Price")
-# plt.savefig("bar_chart.png")
+plt.savefig("bar_chart.png")
 plt.show()
 
 
@@ -382,7 +468,7 @@ plt.hist(df['Selling_Price'], bins=20, color='green', edgecolor='black')
 plt.title("Distribution of Selling Price")
 plt.xlabel("Selling Price")
 plt.ylabel("Frequency")
-# plt.savefig("histogram.png")
+plt.savefig("histogram.png")
 plt.show()
 
 
@@ -415,5 +501,4 @@ print("Check histogram → If bars are taller on lower values, most cars are low
 print("\nObservation:")
 print("Compare Year vs Selling_Price (older cars generally show lower prices).")
 
-#----------------------------------------------------------------------
 #=====================================================================
