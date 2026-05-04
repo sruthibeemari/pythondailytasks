@@ -106,3 +106,29 @@ run_model(LinearRegression())
 #========================================================================
 from sklearn.ensemble import ExtraTreesRegressor
 run_model(ExtraTreesRegressor())
+
+#========================================================================
+# 8. Ridge Regression
+#========================================================================
+from sklearn.linear_model import Ridge
+run_model(Ridge(), use_scaled=True)
+
+#========================================================================
+# 9. Lasso Regression
+#========================================================================
+from sklearn.linear_model import Lasso
+run_model(Lasso(), use_scaled=True)
+
+#========================================================================
+# 10. ElasticNet Regression
+#========================================================================
+from sklearn.linear_model import ElasticNet
+run_model(ElasticNet(), use_scaled=True)
+
+#========================================================================
+# 11. AdaBoost Regressor
+#========================================================================
+from sklearn.ensemble import AdaBoostRegressor
+run_model(AdaBoostRegressor())
+
+
