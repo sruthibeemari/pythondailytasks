@@ -26,7 +26,7 @@ def add_student(student: Student):
     students.append(student)
 
     return {
-        "message": "Student added successfully"
+        "message": "Student added Successfully"
     }
 
 # Get All Students
