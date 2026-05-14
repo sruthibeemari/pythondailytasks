@@ -7,6 +7,11 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from mongoengine import connect, Document, IntField, StringField
 import certifi
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+MONGO_URL = os.getenv("MONGO_URL")
 
 # ------------------------------------------------------------
 # 🚀 FastAPI App
@@ -16,14 +21,24 @@ app = FastAPI()
 # ------------------------------------------------------------
 # 🌐 MongoDB Atlas Connection
 # ------------------------------------------------------------
-MONGO_URL = "mongodb+srv://sruthibeemari_db_user:1234@todo.hbgqfxy.mongodb.net/student_db?retryWrites=true&w=majority"
+
+
+'''
+mongodb+srv://username:password@clustername.xxxxx.mongodb.net/todo_db?retryWrites=true&w=majority
+│              │        │        │                              │
+│              │        │        │                              └── Database name
+│              │        │        └──────────────────────────────── Cluster URL
+│              │        └───────────────────────────────────────── Password
+│              └────────────────────────────────────────────────── Username
+└───────────────────────────────────────────────────────────────── MongoDB protocol
+'''
+
 
 connect(
     db="student_db",
     host=MONGO_URL,
     tlsCAFile=certifi.where()
 )
-
 # ------------------------------------------------------------
 # 🧱 MongoDB Model
 # ------------------------------------------------------------

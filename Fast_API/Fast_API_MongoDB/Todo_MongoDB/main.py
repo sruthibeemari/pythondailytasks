@@ -8,6 +8,9 @@ from pydantic import BaseModel
 from mongoengine import connect, Document, IntField, StringField, BooleanField
 from mongoengine import connect
 import certifi
+from dotenv import load_dotenv
+import os
+
 
 # ------------------------------------------------------------
 # 🚀 FastAPI App
@@ -17,7 +20,10 @@ app = FastAPI()
 # ------------------------------------------------------------
 # 🌐 MongoDB Atlas Connection
 # ------------------------------------------------------------
-MONGO_URL = "mongodb+srv://sruthibeemari_db_user:1234@todo.hbgqfxy.mongodb.net/todo_db?retryWrites=true&w=majority"
+load_dotenv()
+
+MONGO_URL = os.getenv("MONGO_URL")
+
 '''
 mongodb+srv://username:password@clustername.xxxxx.mongodb.net/todo_db?retryWrites=true&w=majority
 │              │        │        │                              │
@@ -28,12 +34,10 @@ mongodb+srv://username:password@clustername.xxxxx.mongodb.net/todo_db?retryWrite
 └───────────────────────────────────────────────────────────────── MongoDB protocol
 '''
 
-from mongoengine import connect
-import certifi
 
 connect(
     db="todo_db",
-    host="mongodb+srv://sruthibeemari_db_user:1234@todo.hbgqfxy.mongodb.net/todo_db?retryWrites=true&w=majority",
+    host=MONGO_URL,
     tlsCAFile=certifi.where()
 )
 
