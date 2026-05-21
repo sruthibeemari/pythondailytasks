@@ -299,4 +299,24 @@ def search_employee(name: str, db: Session = Depends(get_db)):
 
     return employees
 
+# ============================================================
+# Get ttendance By Date
+# ============================================================
 
+@app.get("/attendance/date/{date}")
+def get_attendance_by_date(
+    date: str,
+    db: Session = Depends(get_db)
+):
+
+    records = db.query(Attendance).filter(
+        Attendance.date == date
+    ).all()
+
+    if not records:
+        raise HTTPException(
+            status_code=404,
+            detail="No attendance found for this date"
+        )
+
+    return records

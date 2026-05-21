@@ -325,19 +325,25 @@ def search_employee(name: str):
     return employee_list
 
 # ============================================================
-# ▶️ Run Command
+# Get Attendance By Date
 # ============================================================
 
-"""
-Install Packages:
+@app.get("/attendance/date/{date}")
+def get_attendance_by_date(date: str):
 
-pip install fastapi uvicorn pymongo python-dotenv certifi
+    records = attendance_collection.find(
+        {"date": date}
+    )
 
-Run Server:
+    attendance_list = [
+        attendance_serializer(record)
+        for record in records
+    ]
 
-uvicorn main:app --reload
+    if not attendance_list:
+        raise HTTPException(
+            status_code=404,
+            detail="No attendance found for this date"
+        )
 
-Swagger UI:
-
-http://127.0.0.1:8000/docs
-"""
+    return attendance_list
