@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee Profile - {{ employee.name }}{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">Employee Profile</p>
+            <h1>{{ employee.name }}</h1>
+            <p class="dashboard-copy">Review employee status, department assignment and payroll details in a single card.</p>
+        </div>
+        <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="dashboard-grid">
+        <article class="form-card">
+            <h2>Quick Summary</h2>
+            <div class="form-grid">
+                <div>
+                    <label class="field-label">Employee ID</label>
+                    <p>{{ employee.employee_id }}</p>
+                </div>
+                <div>
+                    <label class="field-label">Email</label>
+                    <p>{{ employee.email }}</p>
+                </div>
+                <div>
+                    <label class="field-label">Department</label>
+                    <p>{{ employee.department }}</p>
+                </div>
+                <div>
+                    <label class="field-label">Designation</label>
+                    <p>{{ employee.designation }}</p>
+                </div>
+                <div>
+                    <label class="field-label">Status</label>
+                    <p class="status-pill {{ employee.status|lower }}">{{ employee.status }}</p>
+                </div>
+                <div>
+                    <label class="field-label">Attendance</label>
+                    <p class="status-pill {{ employee.attendance|lower }}">{{ employee.attendance }}</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="table-card">
+            <h2>Payroll & Notes</h2>
+            <div class="profile-details">
+                <div class="detail-row"><strong>Monthly Salary</strong><span>${{ '%.2f'|format((employee.salary|float(default=0))/12) }}</span></div>
+                <div class="detail-row"><strong>Full Salary</strong><span>${{ employee.salary }}</span></div>
+                <div class="detail-row"><strong>Last updated</strong><span>{{ employee.updated_at if employee.updated_at else 'N/A' }}</span></div>
+            </div>
+            <p class="dashboard-copy">Use this page to check employee history, roster status and quick contact details.</p>
+        </article>
+    </div>
+</section>
+{% endblock %}

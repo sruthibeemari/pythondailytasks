@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">Reports</p>
+            <h1>Operational Insights</h1>
+            <p class="dashboard-copy">Track attendance trends, leave requests and employee headcount in one dashboard.</p>
+        </div>
+        <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="dashboard-grid">
+        <article class="stat-card">
+            <span class="stat-label">Total Employees</span>
+            <strong>{{ summary.total_employees }}</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Present Today</span>
+            <strong>{{ summary.present_today }}</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Absent Today</span>
+            <strong>{{ summary.absent_today }}</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Pending Leave Requests</span>
+            <strong>{{ summary.pending_leaves }}</strong>
+        </article>
+    </div>
+
+    <article class="table-card">
+        <div class="table-headline">
+            <div>
+                <h2>Attendance Overview</h2>
+                <p class="dashboard-copy">Latest snapshot of team attendance.</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance[:6] %}
+                    <tr>
+                        <td>{{ record.employee_name }}</td>
+                        <td>{{ record.date }}</td>
+                        <td><span class="status-pill {{ record.status|lower }}">{{ record.status }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="table-card">
+        <div class="table-headline">
+            <div>
+                <h2>Leave Requests</h2>
+                <p class="dashboard-copy">Review the most recent leave activity.</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in leaves[:6] %}
+                    <tr>
+                        <td>{{ item.employee_name }}</td>
+                        <td>{{ item.leave_date }}</td>
+                        <td>{{ item.reason }}</td>
+                        <td><span class="status-pill {{ item.status|default('Pending')|lower }}">{{ item.status|default('Pending') }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}

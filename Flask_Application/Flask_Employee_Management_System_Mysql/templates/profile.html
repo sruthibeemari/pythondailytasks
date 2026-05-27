@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">My Account</p>
+            <h1>Welcome, {{ username|capitalize }}</h1>
+            <p class="dashboard-copy">Manage your account information, role details and security settings.</p>
+        </div>
+        <a href="/" class="btn btn-secondary">View Dashboard</a>
+    </div>
+
+    <article class="form-card">
+        <h2>Profile Settings</h2>
+        <form method="post">
+            <div class="form-grid">
+                <div>
+                    <label class="field-label" for="username">Username</label>
+                    <input id="username" type="text" name="username" value="{{ username }}" disabled>
+                </div>
+                <div>
+                    <label class="field-label" for="role">Role</label>
+                    <input id="role" type="text" name="role" value="{{ role|capitalize }}" disabled>
+                </div>
+                <div>
+                    <label class="field-label" for="email">Email</label>
+                    <input id="email" type="email" name="email" placeholder="you@example.com">
+                </div>
+                <div>
+                    <label class="field-label" for="phone">Phone</label>
+                    <input id="phone" type="text" name="phone" placeholder="(555) 123-4567">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </article>
+</section>
+{% endblock %}

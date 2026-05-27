@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Employee Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
+</head>
+<body>
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem('ems-theme') === 'light') {
+                    document.body.classList.add('light-theme');
+                }
+                // Only restore a collapsed sidebar on small viewports to avoid
+                // forcing mobile layout on desktop screens.
+                var saved = localStorage.getItem('ems-sidebar');
+                if (saved === 'collapsed' && window.matchMedia('(max-width: 960px)').matches) {
+                    document.documentElement.classList.add('sidebar-collapsed');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <div class="app-shell" id="app-shell">
+        {% include 'navbar.html' %}
+
+        <main class="page-shell">
+            <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="sidebar-toggle-icon" aria-hidden="true">☰</span>
+            </button>
+            <div class="flash-container" id="flash-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

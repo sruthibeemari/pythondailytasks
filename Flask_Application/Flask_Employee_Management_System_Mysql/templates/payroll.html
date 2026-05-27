@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Payroll{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">Payroll</p>
+            <h1>Payroll Summary</h1>
+            <p class="dashboard-copy">Review salary totals and monthly pay estimates for your team.</p>
+        </div>
+        <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <article class="table-card">
+        <div class="table-headline">
+            <div>
+                <h2>Payroll Breakdown</h2>
+                <p class="dashboard-copy">Salary details for each employee.</p>
+            </div>
+            <span class="record-count">{{ payrolls|length }} records</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Employee ID</th>
+                        <th>Annual Salary (INR)</th>
+                        <th>Monthly Pay (INR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payroll in payrolls %}
+                    <tr>
+                        <td>{{ payroll.name }}</td>
+                        <td>{{ payroll.employee_id }}</td>
+                        <td>{{ payroll.salary }}</td>
+                        <td>{{ payroll.monthly_pay }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}

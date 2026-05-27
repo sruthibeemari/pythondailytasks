@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container fade-in">
+
+    <section class="dashboard-header">
+        <div>
+            <p class="eyebrow">Operational overview</p>
+            <h1>Employee Dashboard</h1>
+            <p class="dashboard-copy">A clean, modern view of team performance and employee records. Quickly locate staff, review details, and keep the workforce organized.</p>
+        </div>
+
+        <div class="dashboard-actions">
+            <a href="/add_employee" class="btn btn-primary">Add Employee</a>
+            <a href="/attendance" class="btn btn-secondary">Attendance</a>
+        </div>
+    </section>
+
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total Employees</span>
+            <strong>{{ employees|length }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Active Status</span>
+            <strong>Operational</strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Recent Updates</span>
+            <strong>Auto-synced</strong>
+        </div>
+    </div>
+
+    <section class="search-panel">
+        <form action="/search" method="POST" class="search-form">
+            <label for="search-name" class="sr-only">Search employee</label>
+            <input id="search-name" type="text" name="name" placeholder="Search by name, email, or ID" autocomplete="off">
+            <button type="submit" class="btn btn-search">Search</button>
+        </form>
+        <p class="search-help">Type to filter the table instantly; use the search button for a full request.</p>
+    </section>
+
+    <div class="table-card">
+        <div class="table-headline">
+            <div>
+                <h2>Employee Records</h2>
+                <p>Manage employee profiles, salaries, and contact details in one centralized view.</p>
+            </div>
+            <span class="record-count">{{ employees|length }} records</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table" id="employee-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Salary</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if employees %}
+                        {% for emp in employees %}
+                            <tr>
+                                <td>{{ emp.id }}</td>
+                                <td>{{ emp.employee_id }}</td>
+                                <td>{{ emp.name }}</td>
+                                <td>{{ emp.salary }}</td>
+                                <td>{{ emp.email }}</td>
+                                <td>
+                                    <a class="edit-btn" href="/edit/{{ emp.id }}">Edit</a>
+                                    <a class="btn btn-secondary" href="/employee/{{ emp.id }}">Profile</a>
+                                    <a class="delete-btn" href="/delete/{{ emp.id }}">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="empty-state">No employees found yet.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

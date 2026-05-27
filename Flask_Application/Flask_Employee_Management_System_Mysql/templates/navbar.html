@@ -1,0 +1,37 @@
+<div class="sidebar">
+
+    <div class="brand-panel">
+        <button type="button" class="sidebar-close" id="sidebar-close" aria-label="Close navigation">×</button>
+        <div class="brand-mark">EMS</div>
+        <div>
+            <h2>Employee Management</h2>
+            <p class="brand-note">Analytics, HR, and payroll in one place.</p>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        {% if session.logged_in %}
+            <a href="/">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/attendance">Attendance</a>
+            <a href="/leave">Leave</a>
+            <a href="/add_employee">Add Employee</a>
+            {% if session.role in ['admin', 'hr'] %}
+                <a href="/departments">Departments</a>
+                <a href="/reports">Reports</a>
+                <a href="/payroll">Payroll</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </nav>
+
+    {% if session.logged_in %}
+    <div class="sidebar-footer">
+        <span class="sidebar-role">{{ session.username|capitalize }} • {{ session.role|capitalize }}</span>
+        <button id="theme-toggle" class="theme-switch">Dark mode</button>
+    </div>
+    {% endif %}
+
+</div>

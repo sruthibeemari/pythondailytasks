@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Attendance
+{% endblock %}
+
+{% block content %}
+
+<div class="container fade-in">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Attendance</p>
+            <h1>Daily attendance</h1>
+            <p class="dashboard-copy">Record attendance and review status for every team member in a polished, easy-to-scan layout.</p>
+        </div>
+        <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+    </section>
+
+    <div class="table-card">
+        <div class="table-headline">
+            <div>
+                <h2>Attendance register</h2>
+                <p>Capture presence and absences in one centralized workflow.</p>
+            </div>
+            <span class="record-count">{{ attendance|length }} entries</span>
+        </div>
+
+        <div class="form-card attendance-form">
+            <form method="POST">
+                <div class="form-grid">
+                    <div>
+                        <label class="field-label" for="employee_id">Employee ID</label>
+                        <input id="employee_id" type="text" name="employee_id" placeholder="e.g. EMP001" required>
+                        <p class="field-hint">Enter a valid employee ID from your roster.</p>
+                    </div>
+                    <div>
+                        <label class="field-label" for="date">Date</label>
+                        <input id="date" type="date" name="date" required>
+                    </div>
+                    <div>
+                        <label class="field-label" for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="Present">Present</option>
+                            <option value="Absent">Absent</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Mark Attendance</button>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attend in attendance %}
+                        <tr>
+                            <td>{{ attend.employee_name }}</td>
+                            <td>{{ attend.date }}</td>
+                            <td>
+                                {% if attend.status == "Present" %}
+                                    <span class="status-pill present">Present</span>
+                                {% else %}
+                                    <span class="status-pill absent">Absent</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

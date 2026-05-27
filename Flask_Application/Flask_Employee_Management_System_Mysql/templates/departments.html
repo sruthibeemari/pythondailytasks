@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Departments{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">Departments</p>
+            <h1>Team Structure</h1>
+            <p class="dashboard-copy">Create departments, view assignments, and allocate employees to teams.</p>
+        </div>
+        <a href="/" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="dashboard-grid">
+        <article class="form-card">
+            <h2>Add Department</h2>
+            <form method="post">
+                <input type="hidden" name="action" value="add_department">
+                <div class="form-grid">
+                    <div>
+                        <label class="field-label" for="department_name">Department Name</label>
+                        <input id="department_name" type="text" name="department_name" placeholder="e.g. Customer Success">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Department</button>
+            </form>
+        </article>
+
+        <article class="form-card">
+            <h2>Assign Employee</h2>
+            <form method="post">
+                <input type="hidden" name="action" value="assign_department">
+                <div class="form-grid">
+                    <div>
+                        <label class="field-label" for="employee_id">Employee</label>
+                        <select id="employee_id" name="employee_id">
+                            {% for employee in employees %}
+                                <option value="{{ employee.id }}">{{ employee.name }} ({{ employee.employee_id }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="field-label" for="department_name">Department</label>
+                        <select id="department_name" name="department_name">
+                            {% for department in departments %}
+                                <option value="{{ department.name }}">{{ department.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Assign Employee</button>
+            </form>
+        </article>
+    </div>
+
+    <article class="table-card">
+        <div class="table-headline">
+            <div>
+                <h2>Active Departments</h2>
+                <p class="dashboard-copy">Departments are available for assignment across your organization.</p>
+            </div>
+            <span class="record-count">{{ departments|length }} departments</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Assigned Employees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for department in departments %}
+                    <tr>
+                        <td>{{ department.name }}</td>
+                        <td>{{ assignments.values()|select('equalto', department.name)|list|length }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}

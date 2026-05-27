@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Employee
+{% endblock %}
+
+{% block content %}
+
+<div class="container fade-in">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Employee management</p>
+            <h1>Edit employee</h1>
+            <p class="dashboard-copy">Update profile details for better accuracy across payroll and contact records.</p>
+        </div>
+    </section>
+
+    <div class="form-card">
+        <h2>Update details</h2>
+        <form method="POST">
+            <div class="form-grid">
+                <div>
+                    <label class="field-label" for="employee_id">Employee ID</label>
+                    <input id="employee_id" type="text" name="employee_id" value="{{ employee.employee_id }}" required>
+                    <p class="field-hint">Must be unique across all employees.</p>
+                </div>
+                <div>
+                    <label class="field-label" for="name">Employee Name</label>
+                    <input id="name" type="text" name="name" value="{{ employee.name }}" required>
+                </div>
+                <div>
+                    <label class="field-label" for="salary">Annual Salary (INR)</label>
+                    <input id="salary" type="text" name="salary" value="{{ employee.salary }}" placeholder="e.g. 1200000" required>
+                </div>
+                <div>
+                    <label class="field-label" for="email">Email</label>
+                    <input id="email" type="email" name="email" value="{{ employee.email }}" required>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Update Employee</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
