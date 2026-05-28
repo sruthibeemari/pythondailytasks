@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GenAI App</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Ask Gemini AI</h1>
+
+        <form method="POST">
+            <input 
+                type="text" 
+                name="question" 
+                placeholder="Ask anything..."
+                required
+            >
+
+            <button type="submit">Ask</button>
+        </form>
+
+        <div class="loading">
+            Generating response...
+        </div>
+
+       <div class="response-box">
+    {{ answer | safe }}
+       </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
