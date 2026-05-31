@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+google-genai
+python-dotenv
+sqlalchemy
+pymysql
+jinja2
+python-multipart
+flask
+requests

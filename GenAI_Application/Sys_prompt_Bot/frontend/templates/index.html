@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full Stack Mentor Bot</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🤖 Full Stack Mentor Bot</h1>
+
+    <div id="chat-box"></div>
+
+    <div class="input-area">
+        <input
+            id="question"
+            type="text"
+            placeholder="Ask about Flask, FastAPI, Python, SQL..."
+        >
+ 
+
+        <button onclick="sendMessage()">
+            Send
+        </button>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
